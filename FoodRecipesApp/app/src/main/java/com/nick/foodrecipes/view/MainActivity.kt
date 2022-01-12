@@ -20,14 +20,13 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+        bottomNavigationView.setupWithNavController(navController)
 
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.recipeFragment
             ,R.id.favouriteRecipeFragment
             ,R.id.foodQuoteFragment
         ))
-
-        bottomNavigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController,appBarConfiguration)
 
     }

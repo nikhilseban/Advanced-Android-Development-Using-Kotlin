@@ -1,6 +1,6 @@
 package com.nick.foodrecipes.utils
 
-class Constants {
+class AppConstants {
 
     companion object{
         const val BASE_URL:String = "https://api.spoonacular.com"

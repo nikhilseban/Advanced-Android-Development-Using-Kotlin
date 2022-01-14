@@ -1,4 +1,4 @@
-package com.nick.foodrecipes.model.local
+package com.nick.foodrecipes.data.model.local
 
 import com.google.gson.annotations.SerializedName
 

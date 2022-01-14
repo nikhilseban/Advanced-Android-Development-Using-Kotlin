@@ -1,6 +1,6 @@
-package com.nick.foodrecipes.utils.networkCalls
+package com.nick.foodrecipes.data.networkCalls
 
-import com.nick.foodrecipes.model.local.FoodRecipe
+import com.nick.foodrecipes.data.model.local.FoodRecipe
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.QueryMap

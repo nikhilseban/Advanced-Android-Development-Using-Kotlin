@@ -1,11 +1,11 @@
-package com.nick.foodrecipes.utils.dependencyInjection.module
+package com.nick.foodrecipes.di
 
+import com.nick.foodrecipes.data.networkCalls.RecipeApiServices
 import com.nick.foodrecipes.utils.AppConstants
-import com.nick.foodrecipes.utils.networkCalls.RecipeApiServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModules {
 
     @Singleton
@@ -47,7 +47,7 @@ object NetworkModules {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): RecipeApiServices{
+    fun provideApiService(retrofit: Retrofit): RecipeApiServices {
 
         return retrofit.create(RecipeApiServices::class.java)
     }

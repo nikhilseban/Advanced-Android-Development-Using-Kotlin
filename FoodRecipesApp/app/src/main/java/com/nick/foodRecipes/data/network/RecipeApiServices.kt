@@ -1,4 +1,4 @@
-package com.nick.foodRecipes.data.networkCalls
+package com.nick.foodRecipes.data.network
 
 import com.nick.foodRecipes.data.model.local.ResponseRecipe
 import retrofit2.Response

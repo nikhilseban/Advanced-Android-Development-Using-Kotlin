@@ -1,7 +1,7 @@
 package com.nick.foodRecipes.data
 
 import com.nick.foodRecipes.data.model.local.ResponseRecipe
-import com.nick.foodRecipes.data.networkCalls.RecipeApiServices
+import com.nick.foodRecipes.data.network.RecipeApiServices
 import retrofit2.Response
 import javax.inject.Inject
 

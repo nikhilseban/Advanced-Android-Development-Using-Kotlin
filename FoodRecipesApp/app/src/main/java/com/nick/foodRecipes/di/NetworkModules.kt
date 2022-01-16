@@ -1,6 +1,6 @@
 package com.nick.foodRecipes.di
 
-import com.nick.foodRecipes.data.networkCalls.RecipeApiServices
+import com.nick.foodRecipes.data.network.RecipeApiServices
 import com.nick.foodRecipes.utils.AppConstants
 import dagger.Module
 import dagger.Provides

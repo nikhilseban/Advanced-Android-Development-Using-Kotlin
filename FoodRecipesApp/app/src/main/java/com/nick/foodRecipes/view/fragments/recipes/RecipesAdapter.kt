@@ -1,6 +1,5 @@
-package com.nick.foodRecipes.view.adapter
+package com.nick.foodRecipes.view.fragments.recipes
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,7 +22,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
         }
 
         companion object{
-            fun getViewHolder(parentViewGroup: ViewGroup):RecipeViewHolder{
+            fun getViewHolder(parentViewGroup: ViewGroup): RecipeViewHolder {
                 val layoutInflater = LayoutInflater.from(parentViewGroup.context)
                 val binding = RecipesRowLayoutBinding.inflate(layoutInflater,parentViewGroup,false)
                 return RecipeViewHolder(binding)
@@ -32,7 +31,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipesAdapter.RecipeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         return RecipeViewHolder.getViewHolder(parent)
     }
 

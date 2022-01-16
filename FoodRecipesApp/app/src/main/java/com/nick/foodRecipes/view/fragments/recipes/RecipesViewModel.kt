@@ -1,4 +1,4 @@
-package com.nick.foodRecipes
+package com.nick.foodRecipes.view.fragments.recipes
 
 import android.app.Application
 import androidx.lifecycle.*

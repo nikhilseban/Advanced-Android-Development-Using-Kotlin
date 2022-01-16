@@ -12,6 +12,7 @@ import com.nick.foodRecipes.utils.DiffUtils
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
 
     private var mRecipes = emptyList<Recipe>()
+    private var diffUtils = DiffUtils(mRecipes, emptyList())
 
     class RecipeViewHolder(private val binding: RecipesRowLayoutBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -42,7 +43,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
     override fun getItemCount(): Int {
         return mRecipes.count()
     }
-    
+
     fun setRecipes(recipes: List<Recipe>){
         val recipeDiffUtil = DiffUtils(mRecipes, recipes)
         val recipeDiffResult = DiffUtil.calculateDiff(recipeDiffUtil)

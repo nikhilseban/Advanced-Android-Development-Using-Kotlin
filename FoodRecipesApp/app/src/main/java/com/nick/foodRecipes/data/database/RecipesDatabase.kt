@@ -9,7 +9,7 @@ import androidx.room.TypeConverters
     version = 1,
     exportSchema = false
 )
-
+@TypeConverters(RecipesTypeConverter::class)
 abstract class RecipesDatabase: RoomDatabase() {
 
     abstract fun recipesDao(): RecipesDao

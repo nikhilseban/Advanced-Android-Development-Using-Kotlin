@@ -3,9 +3,11 @@ package com.nick.foodRecipes.view.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nick.foodRecipes.data.model.local.Recipe
 import com.nick.foodRecipes.databinding.RecipesRowLayoutBinding
+import com.nick.foodRecipes.utils.DiffUtils
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
 
@@ -40,10 +42,12 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.RecipeViewHolder>() {
     override fun getItemCount(): Int {
         return mRecipes.count()
     }
-
-    @SuppressLint("NotifyDataSetChanged")
+    
     fun setRecipes(recipes: List<Recipe>){
+        val recipeDiffUtil = DiffUtils(mRecipes, recipes)
+        val recipeDiffResult = DiffUtil.calculateDiff(recipeDiffUtil)
         mRecipes = recipes
-        notifyDataSetChanged()
+        recipeDiffResult.dispatchUpdatesTo(this)
+
     }
 }

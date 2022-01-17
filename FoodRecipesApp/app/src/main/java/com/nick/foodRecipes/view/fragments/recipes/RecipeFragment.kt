@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nick.foodRecipes.R
+import com.nick.foodRecipes.databinding.FragmentRecipeBinding
 import com.nick.foodRecipes.utils.NetworkResult
 import com.nick.foodRecipes.utils.singleLiveEvent
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +22,10 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
+
+    private val args by navArgs<RecipeFragmentArgs>()
+
+    private lateinit var binding: FragmentRecipeBinding
 
 
     private lateinit var recipesViewModel: RecipesViewModel
@@ -32,8 +39,13 @@ class RecipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false)
+        binding = FragmentRecipeBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
+        // Inflate the layout for this fragment
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,13 +53,16 @@ class RecipeFragment : Fragment() {
 
         setupRecyclerView()
         readDatabase()
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_recipeFragment_to_recipesBottomSheet)
+        }
 
     }
 
     private fun readDatabase() {
         lifecycleScope.launch {
             recipesViewModel.readRecipes.singleLiveEvent(viewLifecycleOwner, { database ->
-                if (database.isNotEmpty()) {
+                if (database.isNotEmpty() && !args.backFromBottomSheet) {
                     Log.d("RecipesFragment", "readDatabase called!")
                     mAdapter.setRecipes(database[0].foodRecipe.recipes)
                     hideShimmerEffect()
@@ -83,20 +98,20 @@ class RecipeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerview.adapter = mAdapter
-        recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerview.adapter = mAdapter
+        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         showShimmerEffect()
     }
 
     private fun showShimmerEffect() {
-        recyclerview.visibility = View.GONE
-        shimmerRecyclerview.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.GONE
+        binding.shimmerRecyclerview.visibility = View.VISIBLE
         shimmerRecyclerview.startShimmer()
     }
 
     private fun hideShimmerEffect() {
-        shimmerRecyclerview.visibility = View.GONE
-        recyclerview.visibility = View.VISIBLE
+        binding.shimmerRecyclerview.visibility = View.GONE
+        binding.recyclerview.visibility = View.VISIBLE
         shimmerRecyclerview.stopShimmer()
     }
 

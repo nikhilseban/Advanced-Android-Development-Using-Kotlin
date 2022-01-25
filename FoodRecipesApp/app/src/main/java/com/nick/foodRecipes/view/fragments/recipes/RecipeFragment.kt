@@ -14,22 +14,23 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nick.foodRecipes.R
 import com.nick.foodRecipes.databinding.FragmentRecipeBinding
+import com.nick.foodRecipes.utils.NetworkListener
 import com.nick.foodRecipes.utils.NetworkResult
 import com.nick.foodRecipes.utils.singleLiveEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe.*
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
 
     private val args by navArgs<RecipeFragmentArgs>()
-
     private lateinit var binding: FragmentRecipeBinding
-
 
     private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,23 @@ class RecipeFragment : Fragment() {
         setupRecyclerView()
         readDatabase()
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_recipeFragment_to_recipesBottomSheet)
+
+            if (recipesViewModel.networkStatus) {
+                findNavController().navigate(R.id.action_recipeFragment_to_recipesBottomSheet)
+            } else {
+                recipesViewModel.showNetworkStatus()
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect {
+                        status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipesViewModel.networkStatus = status
+                    recipesViewModel.showNetworkStatus()
+                    readDatabase()
+                }
         }
 
     }

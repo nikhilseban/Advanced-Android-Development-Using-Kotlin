@@ -1,6 +1,7 @@
 package com.nick.foodRecipes.view.fragments.recipes
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.nick.foodRecipes.data.DataRepository
 import com.nick.foodRecipes.data.DataStoreRepository
@@ -33,7 +34,8 @@ class RecipesViewModel  @Inject constructor(
 
 ) : AndroidViewModel(mApplication) {
 
-
+    var networkStatus = false
+    var backOnline = false
 
     val readMealAndDietType = dataStoreRepository.readMealAndDietType
 
@@ -127,5 +129,22 @@ class RecipesViewModel  @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveMealAndDietType(mealType, mealTypeId, dietType, dietTypeId)
         }
+
+    private fun saveBackOnline(backOnline: Boolean) =
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveBackOnline(backOnline)
+        }
+
+    fun showNetworkStatus() {
+        if (!networkStatus) {
+            Toast.makeText(getApplication(), "No Internet Connection.", Toast.LENGTH_SHORT).show()
+            saveBackOnline(true)
+        } else if (networkStatus) {
+            if (backOnline) {
+                Toast.makeText(getApplication(), "We're back online.", Toast.LENGTH_SHORT).show()
+                saveBackOnline(false)
+            }
+        }
+    }
 
 }

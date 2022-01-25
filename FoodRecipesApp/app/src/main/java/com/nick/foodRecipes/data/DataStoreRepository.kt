@@ -6,6 +6,7 @@ import androidx.datastore.dataStore
 import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
 import com.nick.foodRecipes.utils.AppConstants.Companion.DEFAULT_DIET_TYPE
+import com.nick.foodRecipes.utils.AppConstants.Companion.PREFERENCES_BACK_ONLINE
 import com.nick.foodRecipes.utils.AppConstants.Companion.PREFERENCES_DIET_TYPE
 import com.nick.foodRecipes.utils.AppConstants.Companion.PREFERENCES_DIET_TYPE_ID
 import com.nick.foodRecipes.utils.AppConstants.Companion.PREFERENCES_MEAL_TYPE
@@ -29,6 +30,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
         val selectedMealTypeId = intPreferencesKey(PREFERENCES_MEAL_TYPE_ID)
         val selectedDietType = stringPreferencesKey(PREFERENCES_DIET_TYPE)
         val selectedDietTypeId = intPreferencesKey(PREFERENCES_DIET_TYPE_ID)
+        val backOnline = booleanPreferencesKey(PREFERENCES_BACK_ONLINE)
     }
 
     // At the top level of your kotlin file:
@@ -46,6 +48,12 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
             preferences[PreferenceKeys.selectedMealTypeId] = mealTypeId
             preferences[PreferenceKeys.selectedDietType] = dietType
             preferences[PreferenceKeys.selectedDietTypeId] = dietTypeId
+        }
+    }
+
+    suspend fun saveBackOnline(backOnline: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferenceKeys.backOnline] = backOnline
         }
     }
 
